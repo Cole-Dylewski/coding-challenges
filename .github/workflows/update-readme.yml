@@ -5,23 +5,31 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write   # Allow the workflow to push changes back
+
 jobs:
   update-readme:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          persist-credentials: true  # required for git push
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.13'
+
       - name: Update README Challenge List
         run: |
           pip install notebook
           python list_notebooks.py
+
       - name: Commit changes
         run: |
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
           git add README.md
           git commit -m "Auto-update README with new notebooks" || echo "No changes"
           git push

@@ -74,7 +74,7 @@ The list below is **auto-updated** when new notebooks are added (via the include
 | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`close_api.ipynb`](#close_apiipynb) | Implements **Post Body Hash generation** for secure API request signing. Covers hashing techniques (SHA256, HMAC), payload integrity validation, and automated signing for authenticated requests. |
 
-> **More challenges coming soon!**
+> **More challenges coming soon!** Examples will include algorithmic puzzles, backend API tasks, and cloud automation scripts.
 
 ---
 
@@ -137,7 +137,101 @@ python list_notebooks.py
 
 ---
 
+### 🔄 Automated README Updates
+
+This repository also includes a **GitHub Action workflow** that:
+
+* Detects any new `.ipynb` files pushed to the `main` branch
+* Runs `list_notebooks.py` to regenerate the Challenges Overview table
+* Commits and pushes the updated README back to the repository automatically
+
+Workflow file location: `.github/workflows/update-readme.yml`
+
+---
+
+## ✅ GitHub Actions Workflow YAML
+
+Here’s the workflow that enables automatic README updates. Create this file at **`.github/workflows/update-readme.yml`**:
+
+```yaml
+name: Update README Challenge List
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write   # Allow the workflow to push changes back
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: true  # required for git push
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13'
+
+      - name: Update README Challenge List
+        run: |
+          pip install notebook
+          python list_notebooks.py
+
+      - name: Commit changes
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git add README.md
+          git commit -m "Auto-update README with new notebooks" || echo "No changes"
+          git push
+```
+
+After adding this file:
+
+* Any push to `main` will trigger the workflow.
+* If new notebooks are found, it updates the README automatically.
+* The workflow uses the default `GITHUB_TOKEN` with `contents: write` permission.
+
+---
+
 ## 🎯 What This Repository Demonstrates
 
 * **Code clarity & maintainability** → following PEP8 & clean code standards
-* **Problem-solving methodology** → reasoning
+* **Problem-solving methodology** → reasoning before coding
+* **Security-conscious API design** → safe hashing & signing techniques
+* **Cloud readiness** → examples that align with AWS & backend best practices
+
+---
+
+## 👨‍💻 About Me
+
+I’m a **Senior Data & Cloud Engineer** with expertise in:
+
+* **Python, FastAPI, and backend microservices**
+* **AWS infrastructure (ECS, Lambda, Glue, SageMaker)**
+* **DevOps automation & CI/CD pipelines**
+* **Scaling cloud-native applications**
+
+This repo highlights some of the hands-on challenges I’ve tackled to stay sharp for technical interviews & real-world problem solving.
+
+---
+
+## 🤝 Feedback
+
+If you’re a hiring manager or fellow engineer reviewing this repository, I’d love your feedback!
+Feel free to open an issue or connect with me on [LinkedIn](https://www.linkedin.com/in/cole-dylewski).
+
+---
+
+## 📜 License
+
+This repository is intended for educational and demonstration purposes.
+
+---
+
+> *“Clean code always looks like it was written by someone who cares.”*
