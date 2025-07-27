@@ -234,4 +234,4 @@ This repository is intended for educational and demonstration purposes.
 
 ---
 
-> *“Clean code always looks like it was written by someone who cares.”*
+> *“To improve is to change, to be perfect is to change often” - Winston Churchill*
